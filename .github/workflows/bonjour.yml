@@ -1,0 +1,9 @@
+name: Bonjour
+on: [push]
+jobs:
+  bonjour:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: echo "Bonjour DevOps, nous sommes le $(date)"
+      - run: ls -la
