@@ -1,0 +1,14 @@
+name: CI
+on: [push]
+jobs:
+  verifier:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: grep -q "<h1>" index.html
+  build:
+    needs: verifier
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: docker build -t site-devops:${{ github.sha }} .
