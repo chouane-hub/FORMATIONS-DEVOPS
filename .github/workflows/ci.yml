@@ -12,3 +12,13 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - run: docker build -t site-devops:${{ github.sha }} .
+      - run: echo "$TOKEN" | docker login -u "$USER" --password-stdin
+        env:
+         USER: ${{ secrets.DOCKERHUB_USERNAME }}
+         TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
+      - run: |
+         IMG=$USER/site-devops:$GITHUB_SHA
+         docker tag site-devops:$GITHUB_SHA $IMG
+         docker push $IMG
+        env:
+          USER: ${{ secrets.DOCKERHUB_USERNAME }}
